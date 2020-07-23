@@ -1,0 +1,2 @@
+# flutterBaseApp
+flutterでアプリを開発するための基盤パッケージ

@@ -1,15 +1,19 @@
+import 'package:app/bloc/application/SearchApplication.dart';
+import 'package:app/bloc/domain/model/Address.dart';
+import 'package:app/widget/templates/AddressList.dart';
 import 'package:flutter/material.dart';
 
+
 void main() {
-  runApp(MyApp());
+  runApp(AddressSearchApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class AddressSearchApp extends StatelessWidget{
+  final SearchApplication searchApplication = SearchApplication();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Address',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -26,92 +30,71 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MainPage(searchApplication: searchApplication),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class MainPage extends StatefulWidget {
+  final SearchApplication searchApplication;
+  List<Address> addresses = [new Address("山形県", "ヤマガタケン","05"),
+    new Address("東京都", "トウキョウト","13")];
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+  MainPage({this.searchApplication});
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MainPage createState() => _MainPage();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MainPage extends State<MainPage> {
 
-  void _incrementCounter() {
+  void search() async{
+    Address result = await widget.searchApplication.searchAddress();
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      widget.addresses.add(result);
     });
+    print("検索結果");
+    for (Address address in widget.addresses) {
+      print(address.name);
+    }
+  }
+
+  @override
+  void didUpdateWidget(Widget oldWidget){
+    super.didUpdateWidget(oldWidget);
+    print("test2");
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text('main画面のタイトルバー'),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Container(
+        padding: const EdgeInsets.all(50.0),
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'ボタンを押した回数:',
+          crossAxisAlignment: CrossAxisAlignment.center,
+          verticalDirection: VerticalDirection.down,
+          children: [
+            TextField(
+              enabled: true,
+              // 入力数
+              maxLength: 7,
+              maxLengthEnforced: false,
+              obscureText: false,
+              maxLines:1 ,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            RaisedButton(
+              child: Text("検索"),
+              color: Colors.orange,
+              textColor: Colors.white,
+              onPressed: search,
             ),
+            AddressList(addressList: widget.addresses),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

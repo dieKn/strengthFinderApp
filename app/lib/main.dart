@@ -48,8 +48,11 @@ class MainPage extends StatefulWidget {
 
 class _MainPage extends State<MainPage> {
 
+//  final _formKey = GlobalKey<FormState>();
+  final inputController = TextEditingController();
+
   void search() async{
-    Address result = await widget.searchApplication.searchAddress();
+    Address result = await widget.searchApplication.searchAddress(inputController.text);
     setState(() {
       widget.addresses.add(result);
     });
@@ -78,6 +81,7 @@ class _MainPage extends State<MainPage> {
           verticalDirection: VerticalDirection.down,
           children: [
             TextField(
+              controller: inputController,
               enabled: true,
               // 入力数
               maxLength: 7,

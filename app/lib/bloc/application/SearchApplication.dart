@@ -7,8 +7,8 @@ class SearchApplication {
 
   final AddressRepository addressRepository = AddressRepositoryImpl();
 
-  Future<Address> searchAddress() async{
-    return addressRepository.loadAddress("1230865");
+  Future<Address> searchAddress(String zipCode) async{
+    return addressRepository.loadAddress(zipCode);
     //return new Address("埼玉県", "サイタマケン","12");
   }
 }

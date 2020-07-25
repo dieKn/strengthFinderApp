@@ -37,8 +37,7 @@ class AddressSearchApp extends StatelessWidget{
 
 class MainPage extends StatefulWidget {
   final SearchApplication searchApplication;
-  List<Address> addresses = [new Address("山形県", "ヤマガタケン","05"),
-    new Address("東京都", "トウキョウト","13")];
+  List<Address> addresses = [];
 
   MainPage({this.searchApplication});
 

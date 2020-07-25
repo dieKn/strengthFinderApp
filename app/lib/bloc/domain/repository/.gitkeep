@@ -1,0 +1,1 @@
+applicationServiceがデータにアクセスする際に使用(interfaceか抽象クラスで依存を逆転させること)

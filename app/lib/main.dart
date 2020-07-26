@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import './widget/pages/home_page.dart';
+import './widget/pages/add_strength_page.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -26,7 +29,11 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        '/add_strength': (context) => AddStrengthPage(),
+      },
     );
   }
 }

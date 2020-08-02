@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './widget/pages/home_page.dart';
 import './widget/pages/add_strength_page.dart';
+import 'bloc/presentation/StrengthBlocProvider.dart';
 
 
 void main() {
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => HomePage(),
+        '/': (context) => StrengthBlocProvider(child: HomePage()),
         '/add_strength': (context) => AddStrengthPage(),
       },
     );

@@ -1,20 +1,25 @@
+import 'package:app/bloc/domain/model/entity/strength.dart';
+import 'package:app/bloc/presentation/StrengthBlocProvider.dart';
 import 'package:flutter/material.dart';
-
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final bloc = StrengthBlocProvider.of(context).bloc;
     var list = ["メッセージ", "メッセージ", "メッセージ", "メッセージ", "メッセージ",];
     return
       Scaffold(
           appBar: Header(),
-          body: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              if (index >= list.length) {
-                list.addAll(["メッセージ","メッセージ","メッセージ","メッセージ",]);
-              }
-              return _messageItem(list[index]);
-            },
-            itemCount: 10,
+          body: StreamBuilder<List<Strength>>(
+            stream: bloc.strengthStream,
+            builder: (context, strength) {
+              return ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  if(!strength.hasData) print("object is null***");
+                  return _messageItem(strength.data[0].featureName);
+                },
+                itemCount: 10,
+              );
+            }
           ),
       );
   }

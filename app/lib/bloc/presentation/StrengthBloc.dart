@@ -17,7 +17,11 @@ class StrengthBloc {
 //  Stream<int> get userStream => _userController.stream;
 
   StrengthBloc() {
-    final StrengthApplication strengthApplication = StrengthApplication();
+    fetchStrength();
+  }
+
+  void fetchStrength() async {
+    final StrengthApplication strengthApplication = await StrengthApplication();
     strengthSink.add(strengthApplication.getStrengths());
   }
 }

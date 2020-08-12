@@ -4,5 +4,6 @@ enum StrengthFeature {
   AnalyticalThinking,
   Sociability,
   FutureOriented,
-  Competitiveness
+  Competitiveness,
+  None
 }

@@ -8,6 +8,7 @@ class StrengthApplication {
   final StrengthRepository strengthRepository = StrengthRepositoryImpl();
 
   List<Strength> getStrengths(){
+    print("getStrengths() called");
     return strengthRepository.loadStrengths();
   }
 

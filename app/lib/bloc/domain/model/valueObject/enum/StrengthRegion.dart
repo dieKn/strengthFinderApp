@@ -3,5 +3,6 @@ enum StrengthRegion {
   Thinking,
   Relationship,
   Influence,
-  Execution
+  Execution,
+  None
 }

@@ -1,4 +1,6 @@
 import 'package:app/bloc/domain/model/entity/strength.dart';
+import 'package:app/bloc/domain/model/valueObject/enum/StrengthFeature.dart';
+import 'package:app/bloc/domain/model/valueObject/enum/StrengthRegion.dart';
 import 'package:app/bloc/presentation/StrengthBlocProvider.dart';
 import 'package:flutter/material.dart';
 class HomePage extends StatelessWidget {
@@ -11,7 +13,9 @@ class HomePage extends StatelessWidget {
           appBar: Header(),
           body: StreamBuilder<List<Strength>>(
             stream: bloc.strengthStream,
+            initialData: [getInitialData()],
             builder: (context, strength) {
+              print(strength);
               return ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   if(!strength.hasData) print("object is null***");
@@ -22,6 +26,11 @@ class HomePage extends StatelessWidget {
             }
           ),
       );
+  }
+
+  Strength getInitialData() {
+    var data = Strength("loading", "loading", StrengthFeature.None, StrengthRegion.None);
+    return data;
   }
 }
 

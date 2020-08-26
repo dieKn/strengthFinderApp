@@ -1,40 +1,41 @@
 import 'package:app/bloc/domain/model/entity/strength.dart';
-import 'package:app/bloc/domain/model/valueObject/enum/StrengthFeature.dart';
-import 'package:app/bloc/domain/model/valueObject/enum/StrengthRegion.dart';
 import 'package:app/bloc/presentation/StrengthBlocProvider.dart';
 import 'package:flutter/material.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = StrengthBlocProvider.of(context).bloc;
-    var list = ["メッセージ", "メッセージ", "メッセージ", "メッセージ", "メッセージ",];
     return
       Scaffold(
           appBar: Header(),
           body: StreamBuilder<List<Strength>>(
             stream: bloc.strengthStream,
-            initialData: [getInitialData()],
             builder: (context, strength) {
               print(strength);
-              return ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  if(!strength.hasData) print("object is null***");
-                  return _messageItem(strength.data[0].featureName);
-                },
-                itemCount: 10,
-              );
+              return _listView(context, strength);
             }
           ),
       );
   }
-
-  Strength getInitialData() {
-    var data = Strength("loading", "loading", StrengthFeature.None, StrengthRegion.None);
-    return data;
-  }
 }
 
-Widget _messageItem(String title) {
+
+Widget _listView(context, strength){
+  return ListView.builder(
+    itemBuilder: (BuildContext context, int index) {
+      if(!strength.hasData) {
+        print("object is null***");
+        print(strength);
+        return _messageItem("取得中", context);
+      }
+        return _messageItem(strength.data[0].featureName, context);
+    },
+    itemCount: 3,
+  );
+}
+
+
+Widget _messageItem(String title, context) {
   return Container(
     decoration: new BoxDecoration(
         border: new Border(bottom: BorderSide(width: 1.0, color: Colors.grey))
@@ -49,6 +50,7 @@ Widget _messageItem(String title) {
       ),
       onTap: () {
         print("onTap called.");
+        Navigator.of(context).pushReplacementNamed("/add_strength");
       }, // タップ
       onLongPress: () {
         print("onLongTap called.");
